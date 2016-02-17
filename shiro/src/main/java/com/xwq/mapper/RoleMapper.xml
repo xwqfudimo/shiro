@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xwq.dao.RoleDao">
+	<insert id="insert" parameterType="Role">
+		insert into role(id,name,description)
+			values(NULL,#{name},#{description}) 
+	</insert>
+ 
+	<select id="get" parameterType="int" resultType="Role">
+		select * from role where id = #{id}
+	</select>
+	
+	<update id="update" parameterType="Role">
+		update role set name=#{name}, description=#{description}
+			where id=#{id}
+		
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		delete from role where id=#{id}
+	</delete>
+	
+	<select id="list" resultType="Role">
+		select * from role
+	</select>
+	
+	<select id="listByUserId" parameterType="int" resultType="Role">
+		select r.id as id, r.name as name, r.description as description from role r, user u, user_role ur where u.id = ur.user_id and r.id = ur.role_id and u.id = #{id}
+	</select>
+	
+	<insert id="addUserRole" parameterType="UserRole">
+		insert into user_role(user_id, role_id) values(#{user_id}, #{role_id})
+	</insert>
+	
+	<select id="getIdByName" parameterType="string" resultType="int">
+		select id from role where name = #{name}
+	</select>
+	
+	<select id="getByUserId" parameterType="int" resultType="Role">
+		select r.id as id, r.name as name, r.description as description from user u, role r, user_role ur where u.id=ur.user_id and r.id=ur.role_id and u.id = #{userId}
+	</select>
+	
+	<delete id="deleteUserRoleByUserId" parameterType="int">
+		delete from user_role where user_id = #{userId}
+	</delete>
+	
+	<delete id="deleteUserRoleByRoleId" parameterType="int">
+		delete from user_role where role_id = #{roleId}
+	</delete>
+</mapper>
+

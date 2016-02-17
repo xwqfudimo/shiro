@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+        
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+	</bean>
+
+	<bean id="shiroDbRealm" class="com.xwq.shiro.ShiroDbRealm">
+		<property name="credentialsMatcher">
+			 <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+	               <property name="hashAlgorithmName" value="MD5"/>
+	               <property name="storedCredentialsHexEncoded" value="true"/>
+	         </bean>
+		</property>
+	</bean>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="/permDeny"/>
+		<property name="filterChainDefinitions">
+			<value>
+				/css/** = anon
+				/images/** = anon
+				/js/** = anon
+				/loginSubmit = anon
+				
+				/role** = authc,roles[administrator]
+				/permission** = authc,roles[administrator]
+				/user_add = authc,perms[user:add]
+				
+			</value>
+		</property>
+	</bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>     
+        
+</beans>        

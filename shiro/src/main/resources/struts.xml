@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+ 
+  <constant name="struts.devMode" value="true" />
+  <constant name="struts.objectFactory" value="spring" />
+  <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+  
+  <package name="ajax" extends="json-default">
+  	<interceptors>
+		<interceptor name="loginInterceptor" class="com.xwq.interceptor.LoginInterceptor"></interceptor>
+		<interceptor-stack name="loginCheckInterceptor">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+  
+  	<action name="loginSubmit" class="com.xwq.action.LoginAction">
+   		<result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+        </result>
+    </action>
+    
+    <!-- 用户管理 -->
+    <action name="user_save" class="com.xwq.action.UserAction" method="save">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="user_update" class="com.xwq.action.UserAction" method="update">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="user_del" class="com.xwq.action.UserAction" method="del">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <!-- 权限管理 -->
+     <action name="permission_save" class="com.xwq.action.PermissionAction" method="save">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="permission_update" class="com.xwq.action.PermissionAction" method="update">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="permission_del" class="com.xwq.action.PermissionAction" method="del">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <!-- 角色管理 -->
+     <action name="role_save" class="com.xwq.action.RoleAction" method="save">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="role_update" class="com.xwq.action.RoleAction" method="update">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+    <action name="role_del" class="com.xwq.action.RoleAction" method="del">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result type="json">
+        	<param name="defaultEncoding">utf-8</param>  
+      </result>
+    </action>
+    
+  </package>
+ 
+  <package name="default" extends="struts-default">
+ 	<interceptors>
+		<interceptor name="loginInterceptor" class="com.xwq.interceptor.LoginInterceptor"></interceptor>
+		<interceptor-stack name="loginCheckInterceptor">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+		</interceptor-stack>
+	</interceptors>
+  	
+  	<!-- 登录 -->
+  	<global-results>
+  		<result type="redirectAction" name="login">login</result>
+  	</global-results>
+	
+	<!-- 用户管理 -->
+	<action name="user" class="com.xwq.action.UserAction">
+	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/user.jsp</result>
+    </action>
+    
+   	<action name="user_add" class="com.xwq.action.UserAction" method="add">
+   	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/user_add.jsp</result>
+    </action>
+    
+    <action name="user_edit" class="com.xwq.action.UserAction" method="edit">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/user_edit.jsp</result>
+    </action>
+    
+    <!-- 权限管理 -->
+    <action name="permission" class="com.xwq.action.PermissionAction">
+	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/permission.jsp</result>
+    </action>
+    
+   	<action name="permission_add" class="com.xwq.action.PermissionAction">
+   	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/permission_add.jsp</result>
+    </action>
+    
+    <action name="permission_edit" class="com.xwq.action.PermissionAction" method="edit">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/permission_edit.jsp</result>
+    </action>
+    
+    <!-- 角色管理 -->
+    <action name="role" class="com.xwq.action.RoleAction">
+	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/role.jsp</result>
+    </action>
+    
+   	<action name="role_add" class="com.xwq.action.RoleAction" method="add">
+   	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/role_add.jsp</result>
+    </action>
+    
+    <action name="role_view" class="com.xwq.action.RoleAction" method="view">
+   	  <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/role_view.jsp</result>
+    </action>
+    
+    <action name="role_edit" class="com.xwq.action.RoleAction" method="edit">
+      <interceptor-ref name="loginCheckInterceptor" />
+      <result>/WEB-INF/jsp/role_edit.jsp</result>
+    </action>
+    
+    <!-- 退出登录 -->
+    <action name="logout" class="com.xwq.action.LoginAction" method="logout">
+    	<result type="redirectAction">login</result>
+    </action>
+    
+    <action name="*" class="com.xwq.action.DefaultAction">
+      <result>/WEB-INF/jsp/{1}.jsp</result>
+    </action>
+  </package>
+  
+</struts>

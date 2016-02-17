@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration> 
+	<typeAliases>
+		<typeAlias type="com.xwq.model.User" alias="User"/>
+		<typeAlias type="com.xwq.model.Role" alias="Role"/>
+		<typeAlias type="com.xwq.model.Permission" alias="Permission"/>
+		<typeAlias type="com.xwq.model.UserRole" alias="UserRole"/>
+		<typeAlias type="com.xwq.model.RolePermission" alias="RolePermission"/>
+	</typeAliases>
+</configuration>

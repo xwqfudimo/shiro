@@ -1,10 +1,15 @@
 package com.xwq.action;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 
+import com.xwq.model.Permission;
 import com.xwq.model.Result;
 import com.xwq.util.TextUtil;
 
@@ -51,6 +56,23 @@ public class LoginAction extends BaseAction {
 				
 				getSession().setAttribute("loginUser", username);
 				getSession().setAttribute("uid", this.userService.getUserIdByUsername(username));
+				
+				//将权限url Map放入到application中
+				List<Permission> permList = this.permissionService.list();
+				Map<String, String> permUrlMap = new HashMap<String,String>();
+				for(Permission p : permList) {
+					String url = p.getUrl();
+					if(url.contains(",")) {
+						for(String str : url.split(",")) {
+							permUrlMap.put(str, p.getPermission());
+						}
+					}
+					else {
+						permUrlMap.put(url, p.getPermission());
+					}
+				}
+				getApplication().setAttribute("permUrlMap", permUrlMap);
+				
 				result = Result.success();
 			} catch (AuthenticationException e) {
 				e.printStackTrace();

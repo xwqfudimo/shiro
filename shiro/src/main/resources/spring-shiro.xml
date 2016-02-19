@@ -18,22 +18,26 @@
 		</property>
 	</bean>
 	
+	<bean id="accessFilter" class="com.xwq.shiro.AccessFilter"></bean>
+	
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login" />
 		<property name="successUrl" value="/index" />
 		<property name="unauthorizedUrl" value="/permDeny"/>
+		<property name="filters">  
+            <map>  
+                <entry key="accessFilter" value-ref="accessFilter"/>
+            </map>
+        </property>  
 		<property name="filterChainDefinitions">
 			<value>
 				/css/** = anon
 				/images/** = anon
 				/js/** = anon
 				/loginSubmit = anon
-				
-				/role** = authc,roles[administrator]
-				/permission** = authc,roles[administrator]
-				/user_add = authc,perms[user:add]
-				
+				/logout = logout
+				/** = authc,accessFilter
 			</value>
 		</property>
 	</bean>
